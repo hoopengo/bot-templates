@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    command: python -m bot
+    restart: always
+    stdin_open: true
+    environment:
+      TOKEN: ${TOKEN}
+      volumes:
+      - ./logs:/logs
+
+networks:
+  default:
+    name: bot_network
+    driver: bridge
