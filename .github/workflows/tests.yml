@@ -16,6 +16,8 @@ jobs:
           - ubuntu-latest
         python-version:
           - '3.10'
+        poetry-version: 
+          - "1.2.0"
     steps:
       - uses: actions/checkout@v2
 
@@ -28,7 +30,9 @@ jobs:
         run: echo 'ACTIONS_ALLOW_UNSECURE_COMMANDS=true' >> $GITHUB_ENV
 
       - name: Install Poetry
-        uses: dschep/install-poetry-action@v1
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
 
       - name: Install Dependencies
         run: poetry install --no-interaction --no-ansi
