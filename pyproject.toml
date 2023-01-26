@@ -3,7 +3,7 @@ name = "*-bot"
 version = "0.0.1"
 description = "*"
 authors = ["hoopengo <hoopengo@yandex.ru>"]
-license = "BRAINZ"
+license = "Apache License 2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
