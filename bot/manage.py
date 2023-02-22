@@ -1,10 +1,12 @@
 import os
 from pathlib import Path
-from sys import argv
 
-base_init = """from .{cog_file_name} import {cog_name}Cog"""
 
-base_cog = """import nextcord
+# The base contents of the __init__.py file
+INIT_FILE_CONTENTS = """from .{cog_file_name} import {cog_name}Cog"""
+
+# The base contents of the <cog_name>.py file
+COG_FILE_CONTENTS = """import nextcord
 from nextcord.ext import commands
 
 
@@ -13,61 +15,59 @@ class {cog_name}Cog(commands.Cog):
         self.bot = client
 """
 
-string_replacements = {
-    "-": "_",
-    "&": "",
-    "?": "",
-    "^": "",
-    "%": "",
-    "$": "",
-    "#": "",
-    "№": "",
-    "@": "",
-    "!": "",
-    ";": "",
-    "*": "",
-    "(": "",
-    ")": "",
-}
+# Characters that are not allowed in file names
+INVALID_FILENAME_CHARACTERS = r'<>:"/\|?*\''
 
 
-def clear_string(string: str) -> str:
-    for replacement_pattern in string_replacements:
-        string = string.replace(
-            replacement_pattern, string_replacements[replacement_pattern]
-        )
+def create_valid_filename(string: str) -> str:
+    """
+    Converts a string to a valid filename by replacing any invalid characters with underscores and removing
+    any trailing underscores.
+    """
+    valid_chars = [c for c in string if c not in INVALID_FILENAME_CHARACTERS else "_"]
+    valid_filename = "".join(valid_chars).rstrip("_")
+    return valid_filename
 
-    return string
 
+def create_cog() -> None:
+    """
+    Creates a new cog with the specified name.
 
-def create_cog(path: str) -> bool:
-    cog_path = path.split("/")
-    cog_path[-1] = clear_string(cog_path[-1])
-    cog_name = "".join(
-        [cog_part.title() for cog_part in cog_path[-1].split("_")]
-    )
-    path = Path(str(Path(__file__).parent.resolve()) + "/cogs/" + "/".join(cog_path)).resolve()
+    The cog consists of two files: an __init__.py file and a <cog_name>.py file. The __init__.py file simply imports
+    the <cog_name>Cog class from the <cog_name>.py file. The <cog_name>.py file contains the actual implementation
+    of the cog.
+
+    :param cog_name: The name of the cog to create.
+    """
+    # Get cog name by asking user
+    cog_name = input("Enter cog name: ")
+
+    # Convert the cog name to a valid filename
+    cog_filename = create_valid_filename(cog_name)
+
+    # Create the full path to the cog directory
+    cog_dir_path = Path(__file__).parent / "cogs" / cog_filename
 
     try:
-        os.mkdir(path)
+        # Create the cog directory
+        os.mkdir(cog_dir_path)
+
+        # Create the __init__.py file
+        with open(cog_dir_path / "__init__.py", "w", encoding="UTF-8") as f:
+            f.write(INIT_FILE_CONTENTS.format(cog_file_name=cog_filename, cog_name=cog_name))
+
+        # Create the <cog_name>.py file
+        with open(cog_dir_path / f"{cog_filename}.py", "w", encoding="UTF-8") as f:
+            f.write(COG_FILE_CONTENTS.format(cog_name=cog_name))
+
+        print(f"Cog created: {cog_dir_path}")
+
     except FileExistsError:
-        print(f"Cog already exist: {path}")
-        return
-    
-    with open(f"{path}/__init__.py", "w", encoding="UTF-8") as f:
-        f.write(
-            base_init.format(cog_file_name=cog_path[-1], cog_name=cog_name)
-        )
+        print(f"Cog already exists: {cog_dir_path}")
 
-    with open(f"{path}/{cog_path[-1]}.py", "w", encoding="UTF-8") as f:
-        f.write(base_cog.format(cog_name=cog_name))
-
-
-def show_version():
-    from __init__ import __version__
-
-    print(f"Bot version: {__version__}")
+    except OSError as e:
+        print(f"Error creating cog directory: {cog_dir_path}. {e}")
 
 
 if __name__ == "__main__":
-	create_cog(input("Введите название кога: "))
+    create_cog()
