@@ -1,8 +1,15 @@
+from typing import Optional
+
 from pydantic import BaseSettings, Field
 
 
 class Config(BaseSettings):
-    TOKEN: str = Field(env="TOKEN", default="No token provided!")
+    TOKEN: Optional[str] = Field(env="TOKEN")
+    POSTGRES_URL: str = Field(
+        env="POSTGRES_URL",
+        default="postgresql://postgres:mypassword@localhost:5432/mydb",
+    )
+
     CMD_PREFIX: str = "."
 
     class Config:

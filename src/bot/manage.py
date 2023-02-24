@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-
 # The base contents of the __init__.py file
 INIT_FILE_CONTENTS = """from .{cog_file_name} import {cog_name}Cog"""
 
@@ -11,8 +10,8 @@ from nextcord.ext import commands
 
 
 class {cog_name}Cog(commands.Cog):
-    def __init__(self, client: commands.Bot):
-        self.bot = client
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
 """
 
 # Characters that are not allowed in file names
@@ -24,9 +23,8 @@ def create_valid_filename(string: str) -> str:
     Converts a string to a valid filename by replacing any invalid characters with underscores and removing
     any trailing underscores.
     """
-    valid_chars = [c for c in string if c not in INVALID_FILENAME_CHARACTERS else "_"]
-    valid_filename = "".join(valid_chars).rstrip("_")
-    return valid_filename
+    valid_chars = [c if c not in INVALID_FILENAME_CHARACTERS else "_" for c in string]
+    return "".join(valid_chars).rstrip("_")
 
 
 def create_cog() -> None:
@@ -54,7 +52,9 @@ def create_cog() -> None:
 
         # Create the __init__.py file
         with open(cog_dir_path / "__init__.py", "w", encoding="UTF-8") as f:
-            f.write(INIT_FILE_CONTENTS.format(cog_file_name=cog_filename, cog_name=cog_name))
+            f.write(
+                INIT_FILE_CONTENTS.format(cog_file_name=cog_filename, cog_name=cog_name)
+            )
 
         # Create the <cog_name>.py file
         with open(cog_dir_path / f"{cog_filename}.py", "w", encoding="UTF-8") as f:

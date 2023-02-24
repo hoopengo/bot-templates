@@ -1,5 +1,4 @@
 docker-build:
-	docker compose up -d --build
-
-docker-logs:
-	docker logs bot-bot-1 --follow
+	docker compose -f docker-compose.yml up -d --build
+docker-down:
+	docker compose down -v

@@ -1,4 +1,5 @@
 [flake8]
+inline-quotes = double
 exclude = .git,__pycache__,env,venv,.venv,.mypy_cache,.pytest_cache,.github,.vscode,tests
 max-line-lenght = 120
 max-complexity = 18

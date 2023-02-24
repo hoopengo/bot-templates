@@ -1,25 +1,29 @@
 repos:
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        language_version: python3
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          - flake8-black
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-quotes
+          - flake8-string-format
+
   - repo: https://github.com/pre-commit/mirrors-isort
-    rev: 1ba6bfc # Use the revision sha / tag you want to point at
+    rev: v5.10.1
     hooks:
       - id: isort
         args: ["--profile", "black"]
-  - repo: https://github.com/psf/black
-    rev: 22.6.0
-    hooks:
-      - id: black
-  - repo: https://github.com/pycqa/flake8
-    rev: 4.0.1
-    hooks:
-      - id: flake8
-        language_version: python3
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-commas
-          - flake8-polyfill
-          - flake8-mypy
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v4.4.0
     hooks:
       - id: check-docstring-first
       - id: check-json
@@ -29,11 +33,6 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: requirements-txt-fixer
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
-    hooks:
-      - id: python-check-mock-methods
-      - id: python-use-type-annotations
-      - id: python-check-blanket-noqa
-      - id: python-use-type-annotations
-      - id: text-unicode-replacement-char
+
+
+fail_fast: false
