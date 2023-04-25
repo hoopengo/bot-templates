@@ -15,7 +15,7 @@ jobs:
         os:
           - ubuntu-latest
         python-version:
-          - '3.11.2'
+          - '3.11'
         poetry-version:
           - "1.3.2"
     services:
@@ -55,10 +55,11 @@ jobs:
 
       - name: Check code quality
         run: |
-          poetry run black . --check --exclude get-poetry.py
-          poetry run flake8 . --count --statistics --exclude get-poetry.py
+          poetry run black ./src --check --exclude get-poetry.py
+          poetry run flake8 ./src --count --statistics --exclude get-poetry.py
 
       - name: Test bot
+        working-directory: ./src
         env:
           DATABASE_URL: postgresql://myuser:mypassword@localhost:5432/mydb
         run: poetry run python -m pytest tests/test_*
