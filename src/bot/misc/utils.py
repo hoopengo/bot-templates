@@ -1,9 +1,9 @@
 import random
 
-import nextcord
+import disnake
 
 
-def random_guild_emoji(guild: nextcord.Guild) -> str:
+def random_guild_emoji(guild: disnake.Guild) -> str:
     """Returns a random emoji from the given guild."""
     if not guild.emojis:
         return "🤡"  # Clown emoji as fallback

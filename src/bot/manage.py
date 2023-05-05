@@ -6,8 +6,8 @@ from pathlib import Path
 INIT_FILE_CONTENTS = """from .{cog_file_name} import {cog_name}Cog"""
 
 # The base contents of the <cog_name>.py file
-COG_FILE_CONTENTS = """import nextcord
-from nextcord.ext import commands
+COG_FILE_CONTENTS = """import disnake
+from disnake.ext import commands
 
 
 class {cog_name}Cog(commands.Cog):

@@ -1,4 +1,4 @@
-import nextcord.ext.commands as commands
+import disnake.ext.commands as commands
 
 from .test import TestCog
 

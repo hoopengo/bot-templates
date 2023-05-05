@@ -1,7 +1,7 @@
 import logging
 
-import nextcord
-from nextcord.ext import commands
+import disnake
+from disnake.ext import commands
 
 from bot.cogs import register_all_cogs
 from bot.misc.config import config
@@ -15,7 +15,7 @@ def main() -> None:
     logger = logging.getLogger(__name__)
 
     # Create a bot instance with intents
-    intents = nextcord.Intents.all()
+    intents = disnake.Intents.all()
     bot = commands.Bot(command_prefix=config.CMD_PREFIX, intents=intents)
 
     # Set up bot event listeners
@@ -23,12 +23,12 @@ def main() -> None:
     async def on_ready() -> None:
         """Runs when the bot is ready"""
         logger.info("Bot is online.")
-        activity = nextcord.Streaming(
+        activity = disnake.Streaming(
             name="травоман такой зайка",
             url="https://www.twitch.tv/tpabomah",
-            type=nextcord.ActivityType.streaming,
+            type=disnake.ActivityType.streaming,
         )
-        await bot.change_presence(status=nextcord.Status.dnd, activity=activity)
+        await bot.change_presence(status=disnake.Status.dnd, activity=activity)
         logger.info(
             f"Changed presence to {activity.type.name} "
             f"{activity.name} ({activity.url})."

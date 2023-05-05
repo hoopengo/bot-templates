@@ -17,7 +17,6 @@ services:
     build:
       dockerfile: Dockerfile
     restart: always
-    command: bash -c "alembic upgrade head && python -m bot"
     environment:
       POSTGRES_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       TOKEN: ${TOKEN}
