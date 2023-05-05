@@ -15,7 +15,6 @@ services:
 
   bot:
     build:
-      context: ./src
       dockerfile: Dockerfile
     restart: always
     command: bash -c "alembic upgrade head && python -m bot"
