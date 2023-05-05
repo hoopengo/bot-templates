@@ -15,7 +15,7 @@
 7. install pre-commits by `pre-commit install` command.
 8. copy `.env.example` file and rename it to `.env`.
 9. throw your data into `.env` file.
-10. create `master` branch.
+10. create `develop`, `master` branches.
 11. start `docker compose -f docker-compose.yml up -d --build db`.
 12. write your models to `src/bot/models.py`.
 13. run `cd src` and make `alembic revision --autogenerate -m "Initial migration"`.
