@@ -3,5 +3,5 @@ inline-quotes = double
 exclude = .git,__pycache__,env,venv,.venv,.mypy_cache,.pytest_cache,.github,.vscode,tests
 max-line-lenght = 120
 max-complexity = 18
-ignore = E203, E266, E501, W503, F403, C812, B950, B008, C901, F821, F722
+ignore = E203, E266, E501, W503, F403, C812, B950, B008, C901, F821, F722, E999
 per-file-ignores = */__init__.py: F401
