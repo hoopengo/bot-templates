@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 from pathlib import Path
 
@@ -23,7 +24,7 @@ def create_valid_filename(string: str) -> str:
     Converts a string to a valid filename by replacing any invalid characters with underscores and removing
     any trailing underscores.
     """
-    valid_chars = [c if c not in INVALID_FILENAME_CHARACTERS else "_" for c in string]
+    valid_chars = [c if c not in INVALID_FILENAME_CHARACTERS else "_" for c in string.lower()]
     return "".join(valid_chars).rstrip("_")
 
 
@@ -31,14 +32,17 @@ def create_cog() -> None:
     """
     Creates a new cog with the specified name.
 
-    The cog consists of two files: an __init__.py file and a <cog_name>.py file. The __init__.py file simply imports
-    the <cog_name>Cog class from the <cog_name>.py file. The <cog_name>.py file contains the actual implementation
+    The cog consists of two files: an __init__.py file and a <cog_filename>.py file. The __init__.py file simply imports
+    the <cog_name>Cog class from the <cog_filename>.py file. The <cog_filename>.py file contains the actual implementation
     of the cog.
 
     :param cog_name: The name of the cog to create.
     """
     # Get cog name by asking user
     cog_name = input("Enter cog name: ")
+    
+    # Upper first letter in cog_name
+    cog_name = cog_name[0].upper() + cog_name[1:]
 
     # Convert the cog name to a valid filename
     cog_filename = create_valid_filename(cog_name)
@@ -56,7 +60,7 @@ def create_cog() -> None:
                 INIT_FILE_CONTENTS.format(cog_file_name=cog_filename, cog_name=cog_name)
             )
 
-        # Create the <cog_name>.py file
+        # Create the <cog_filename>.py file
         with open(cog_dir_path / f"{cog_filename}.py", "w", encoding="UTF-8") as f:
             f.write(COG_FILE_CONTENTS.format(cog_name=cog_name))
 
