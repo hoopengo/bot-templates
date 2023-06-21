@@ -18,7 +18,7 @@
 10. create `develop`, `master` branches.
 11. start `docker compose -f docker-compose.yml up -d --build db`.
 12. write your models to `src/bot/models.py`.
-13. run `cd src` and make `alembic revision --autogenerate -m "Initial migration"`.
+13. run `cd src` and `export POSTGRES_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}` and make `alembic revision --autogenerate -m "Initial migration"`.
 14. run `cd ..` and start `docker compose -f docker-compose.yml up -d --build`.
 15. now, remove all containers by `docker compose down -v`.
 
